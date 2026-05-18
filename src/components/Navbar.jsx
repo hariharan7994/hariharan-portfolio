@@ -49,7 +49,7 @@ export default function Navbar() {
             <span className="text-black font-bold font-display text-lg">H</span>
           </div>
           <span className="font-display font-bold text-white text-lg tracking-wide">
-            Hariharan<span className="text-[var(--accent)]">.</span>
+            HARIHARAN<span className="text-[var(--accent)]">.S</span>
           </span>
         </motion.div>
 

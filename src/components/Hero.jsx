@@ -29,7 +29,7 @@ export default function Hero() {
             className="text-5xl lg:text-7xl font-bold font-display leading-tight mb-4"
           >
             HARIHARAN<br />
-            <span className="text-[var(--accent)]">S</span>
+            <span className="text-[var(--accent)]"></span>
           </motion.h1>
 
           <motion.p
