@@ -29,7 +29,7 @@ export default function Hero() {
             style={{ fontSize: "clamp(2.5rem, 6vw, 4.5rem)", fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", lineHeight: 1.1, marginBottom: "16px", color: "var(--text)" }}
           >
             Hariharan<br />
-            <span style={{ color: "var(--accent)" }}>S</span>
+            <span style={{ color: "var(--accent)" }}></span>
           </motion.h1>
 
           <motion.p
