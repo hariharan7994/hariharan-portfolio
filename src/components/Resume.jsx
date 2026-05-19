@@ -1,86 +1,88 @@
 import { motion } from "framer-motion";
-import { FaDownload, FaEye, FaGraduationCap, FaCode, FaAward } from "react-icons/fa";
+import { FaDownload, FaEye, FaGraduationCap, FaAward } from "react-icons/fa";
 
 export default function Resume() {
-    return (
-        <section id="resume" className="py-24 max-w-5xl mx-auto px-6">
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} className="text-center mb-16">
-                <p className="text-[var(--accent)] font-mono text-sm tracking-widest uppercase mb-3">My CV</p>
-                <h2 className="text-4xl lg:text-5xl font-bold font-display">
-                    My <span className="text-[var(--accent)]">Resume</span>
-                </h2>
-            </motion.div>
+  return (
+    <section id="resume" style={{ padding: "96px 0" }}>
+      <div className="max-w-5xl mx-auto px-6">
+        <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} style={{ textAlign: "center", marginBottom: "64px" }}>
+          <p style={{ color: "var(--accent)", fontFamily: "monospace", fontSize: "0.75rem", letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: "12px" }}>My CV</p>
+          <h2 style={{ fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", color: "var(--text)" }}>
+            My <span style={{ color: "var(--accent)" }}>Resume</span>
+          </h2>
+        </motion.div>
 
-            <div className="grid lg:grid-cols-2 gap-8 mb-12">
-                {/* Education */}
-                <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
-                    className="bg-[var(--surface)] rounded-3xl p-8 border border-white/5"
-                >
-                    <div className="flex items-center gap-3 mb-6">
-                        <div className="w-10 h-10 rounded-xl bg-[var(--accent)]/10 flex items-center justify-center">
-                            <FaGraduationCap className="text-[var(--accent)] text-lg" />
-                        </div>
-                        <h3 className="text-xl font-bold font-display">Education</h3>
-                    </div>
-                    <div className="space-y-6">
-                        {[
-                            { degree: "Bachelor of Computer Applications (BCA)", school: "Calicut University", year: "2020 – 2024" },
-                            { degree: "Higher Secondary Education", school: "Kerala State Board", year: "2018 – 2020" },
-                        ].map((edu, i) => (
-                            <div key={i} className="border-l-2 border-[var(--accent)] pl-4">
-                                <p className="font-semibold text-white">{edu.degree}</p>
-                                <p className="text-[var(--accent)] text-sm">{edu.school}</p>
-                                <p className="text-[var(--muted)] text-xs mt-1">{edu.year}</p>
-                            </div>
-                        ))}
-                    </div>
-                </motion.div>
-
-                {/* Achievements */}
-                <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
-                    className="bg-[var(--surface)] rounded-3xl p-8 border border-white/5"
-                >
-                    <div className="flex items-center gap-3 mb-6">
-                        <div className="w-10 h-10 rounded-xl bg-[var(--accent2)]/20 flex items-center justify-center">
-                            <FaAward className="text-[var(--accent2)] text-lg" />
-                        </div>
-                        <h3 className="text-xl font-bold font-display">Achievements</h3>
-                    </div>
-                    <ul className="space-y-3">
-                        {[
-                            "Led full stack dev for 2 major production applications.",
-                            "Delivered end-to-end caregiver booking platform with live payments.",
-                            "Built & deployed face-recognition gym software as PM + developer.",
-                            "Improved API response times via query optimization in Django ORM.",
-                            "Digitized workflows for healthcare and fitness industry clients.",
-                        ].map((item, i) => (
-                            <li key={i} className="flex items-start gap-2 text-[var(--muted)] text-sm">
-                                <span className="text-[var(--accent2)] mt-1">▸</span> {item}
-                            </li>
-                        ))}
-                    </ul>
-                </motion.div>
+        <div className="grid lg:grid-cols-2 gap-8 mb-12">
+          {/* Education */}
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
+            style={{ background: "var(--surface)", borderRadius: "24px", padding: "32px", border: "1px solid var(--border)" }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "24px" }}>
+              <div style={{ width: "40px", height: "40px", borderRadius: "12px", background: "var(--glow)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <FaGraduationCap style={{ color: "var(--accent)", fontSize: "18px" }} />
+              </div>
+              <h3 style={{ fontSize: "1.1rem", fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", color: "var(--text)" }}>Education</h3>
             </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+              {[
+                { degree: "Bachelor of Computer Applications (BCA)", school: "Calicut University", year: "2020 – 2024" },
+                { degree: "Higher Secondary Education", school: "Kerala State Board", year: "2018 – 2020" },
+              ].map((edu, i) => (
+                <div key={i} style={{ borderLeft: "2px solid var(--accent)", paddingLeft: "16px" }}>
+                  <p style={{ fontWeight: 600, color: "var(--text)", fontSize: "0.9rem" }}>{edu.degree}</p>
+                  <p style={{ color: "var(--accent)", fontSize: "0.82rem", marginTop: "2px" }}>{edu.school}</p>
+                  <p style={{ color: "var(--muted)", fontSize: "0.75rem", marginTop: "4px" }}>{edu.year}</p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
 
-            {/* Download / View buttons */}
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-                className="flex flex-col sm:flex-row gap-4 justify-center"
-            >
-                <a
-                    href="/Hariharan_S_Resume.pdf"
-                    download="Hariharan_S_Resume.pdf"
-                    className="flex items-center justify-center gap-3 px-8 py-4 bg-[var(--accent)] text-black font-semibold rounded-full hover:scale-105 transition-transform"
-                >
-                    <FaDownload /> Download Resume
-                </a>
-                <a
-                    href="/Hariharan_S_Fullstack_Resume (3yr).pdf"
-                    target="_blank" rel="noreferrer"
-                    className="flex items-center justify-center gap-3 px-8 py-4 border border-[var(--accent)] text-[var(--accent)] rounded-full hover:bg-[var(--accent)] hover:text-black transition-all"
-                >
-                    <FaEye /> View Online
-                </a>
-            </motion.div>
-        </section>
-    );
+          {/* Achievements */}
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
+            style={{ background: "var(--surface)", borderRadius: "24px", padding: "32px", border: "1px solid var(--border)" }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "24px" }}>
+              <div style={{ width: "40px", height: "40px", borderRadius: "12px", background: "rgba(123,94,167,0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <FaAward style={{ color: "var(--accent2)", fontSize: "18px" }} />
+              </div>
+              <h3 style={{ fontSize: "1.1rem", fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", color: "var(--text)" }}>Achievements</h3>
+            </div>
+            <ul style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+              {[
+                "Led full stack dev for 2 major production applications.",
+                "Delivered end-to-end caregiver booking platform with live payments.",
+                "Built & deployed face-recognition gym software as PM + developer.",
+                "Improved API response times via query optimization in Django ORM.",
+                "Digitized workflows for healthcare and fitness industry clients.",
+              ].map((item, i) => (
+                <li key={i} style={{ display: "flex", alignItems: "flex-start", gap: "8px", color: "var(--muted)", fontSize: "0.85rem", lineHeight: 1.6 }}>
+                  <span style={{ color: "var(--accent2)", marginTop: "2px", flexShrink: 0 }}>▸</span> {item}
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+        </div>
+
+        {/* Download buttons */}
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+          style={{ display: "flex", flexWrap: "wrap", gap: "16px", justifyContent: "center" }}
+        >
+          <motion.a href="/Hariharan_S_Resume.pdf" download
+            whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}
+            style={{ display: "inline-flex", alignItems: "center", gap: "10px", padding: "14px 32px", background: "var(--accent)", color: "#000", fontWeight: 600, borderRadius: "9999px", textDecoration: "none", fontSize: "0.9rem" }}
+          >
+            <FaDownload /> Download Resume
+          </motion.a>
+          <motion.a href="/Hariharan_S_Resume.pdf" target="_blank" rel="noreferrer"
+            whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}
+            style={{ display: "inline-flex", alignItems: "center", gap: "10px", padding: "14px 32px", border: "1px solid var(--accent)", color: "var(--accent)", borderRadius: "9999px", textDecoration: "none", background: "transparent", fontSize: "0.9rem", transition: "all 0.3s" }}
+            onMouseEnter={e => { e.currentTarget.style.background = "var(--accent)"; e.currentTarget.style.color = "#000"; }}
+            onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "var(--accent)"; }}
+          >
+            <FaEye /> View Online
+          </motion.a>
+        </motion.div>
+      </div>
+    </section>
+  );
 }

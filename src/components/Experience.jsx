@@ -1,56 +1,77 @@
 import { motion } from "framer-motion";
 import { FaBriefcase, FaMapMarkerAlt, FaCalendarAlt, FaCheckCircle } from "react-icons/fa";
-import { experience } from "../constants";
+
+const experience = [
+  {
+    title: "Full Stack Developer (Team Lead)",
+    company: "Techfifo Innovations LLP",
+    location: "Palakkad, Kerala",
+    period: "March 2023 – Present",
+    points: [
+      "Led full stack development for 2 major client projects (React + Django).",
+      "Built RESTful APIs using Django REST Framework for mobile and web clients.",
+      "Implemented JWT auth, RBAC, FCM notifications, and payment integrations.",
+      "Conducted code reviews and mentored junior developers in Agile sprints.",
+      "Managed PostgreSQL/MySQL with schema design and query optimization.",
+      "Deployed applications on cloud servers and managed production environments.",
+    ],
+  },
+];
 
 export default function Experience() {
   return (
-    <section id="experience" className="py-24 max-w-5xl mx-auto px-6">
-      <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} className="text-center mb-16">
-        <p className="text-[var(--accent)] font-mono text-sm tracking-widest uppercase mb-3">Career</p>
-        <h2 className="text-4xl lg:text-5xl font-bold font-display">
-          Work <span className="text-[var(--accent)]">Experience</span>
-        </h2>
-      </motion.div>
+    <section id="experience" style={{ padding: "96px 0" }}>
+      <div className="max-w-5xl mx-auto px-6">
+        <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} style={{ textAlign: "center", marginBottom: "64px" }}>
+          <p style={{ color: "var(--accent)", fontFamily: "monospace", fontSize: "0.75rem", letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: "12px" }}>Career</p>
+          <h2 style={{ fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", color: "var(--text)" }}>
+            Work <span style={{ color: "var(--accent)" }}>Experience</span>
+          </h2>
+        </motion.div>
 
-      <div className="relative">
-        {/* Timeline line */}
-        <div className="absolute left-6 top-0 bottom-0 w-px bg-gradient-to-b from-[var(--accent)] to-transparent" />
+        <div style={{ position: "relative" }}>
+          {/* Timeline line */}
+          <div style={{ position: "absolute", left: "24px", top: 0, bottom: 0, width: "1px", background: "linear-gradient(to bottom, var(--accent), transparent)" }} />
 
-        {experience.map((exp, i) => (
-          <motion.div key={i}
-            initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }}
-            transition={{ delay: i * 0.2 }}
-            className="relative pl-16 pb-12"
-          >
-            {/* Timeline dot */}
-            <div className="absolute left-0 top-1 w-12 h-12 rounded-full bg-[var(--accent)] flex items-center justify-center shadow-[0_0_20px_rgba(0,245,212,0.4)]">
-              <FaBriefcase className="text-black text-lg" />
-            </div>
-
-            <div className="bg-[var(--surface)] rounded-3xl p-8 border border-white/5 hover:border-[var(--accent)]/30 transition-all">
-              <h3 className="text-xl font-bold font-display text-white mb-1">{exp.title}</h3>
-              <p className="text-[var(--accent)] font-semibold mb-3">{exp.company}</p>
-
-              <div className="flex flex-wrap gap-4 mb-6 text-sm text-[var(--muted)]">
-                <span className="flex items-center gap-1">
-                  <FaMapMarkerAlt className="text-[var(--accent)]" /> {exp.location}
-                </span>
-                <span className="flex items-center gap-1">
-                  <FaCalendarAlt className="text-[var(--accent)]" /> {exp.period}
-                </span>
+          {experience.map((exp, i) => (
+            <motion.div key={i}
+              initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.2 }}
+              style={{ position: "relative", paddingLeft: "72px", paddingBottom: "48px" }}
+            >
+              {/* Dot */}
+              <div style={{ position: "absolute", left: 0, top: 0, width: "48px", height: "48px", borderRadius: "50%", background: "var(--accent)", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 0 20px var(--shadow)" }}>
+                <FaBriefcase style={{ color: "#000", fontSize: "16px" }} />
               </div>
 
-              <ul className="space-y-3">
-                {exp.points.map((point, j) => (
-                  <li key={j} className="flex items-start gap-3 text-[var(--muted)] text-sm leading-relaxed">
-                    <FaCheckCircle className="text-[var(--accent)] mt-0.5 flex-shrink-0" />
-                    {point}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </motion.div>
-        ))}
+              <div
+                style={{ background: "var(--surface)", borderRadius: "24px", padding: "32px", border: "1px solid var(--border)", transition: "border-color 0.3s" }}
+                onMouseEnter={e => e.currentTarget.style.borderColor = "var(--border2)"}
+                onMouseLeave={e => e.currentTarget.style.borderColor = "var(--border)"}
+              >
+                <h3 style={{ fontSize: "1.15rem", fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", color: "var(--text)", marginBottom: "4px" }}>{exp.title}</h3>
+                <p style={{ color: "var(--accent)", fontWeight: 600, marginBottom: "14px", fontSize: "0.95rem" }}>{exp.company}</p>
+
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "16px", marginBottom: "24px" }}>
+                  <span style={{ display: "flex", alignItems: "center", gap: "6px", color: "var(--muted)", fontSize: "0.82rem" }}>
+                    <FaMapMarkerAlt style={{ color: "var(--accent)" }} /> {exp.location}
+                  </span>
+                  <span style={{ display: "flex", alignItems: "center", gap: "6px", color: "var(--muted)", fontSize: "0.82rem" }}>
+                    <FaCalendarAlt style={{ color: "var(--accent)" }} /> {exp.period}
+                  </span>
+                </div>
+
+                <ul style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                  {exp.points.map((point, j) => (
+                    <li key={j} style={{ display: "flex", alignItems: "flex-start", gap: "10px", color: "var(--muted)", fontSize: "0.875rem", lineHeight: 1.7 }}>
+                      <FaCheckCircle style={{ color: "var(--accent)", marginTop: "3px", flexShrink: 0 }} />
+                      {point}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   );

@@ -1,31 +1,54 @@
 import { useRef, useState } from "react";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { Text, OrbitControls, Sphere } from "@react-three/drei";
 import * as THREE from "three";
 
 const techs = [
-  "Python", "Django", "React", "PostgreSQL",
-  "Docker", "JavaScript", "REST API", "Redux",
-  "Firebase", "OpenCV", "Git", "Tailwind",
-  "JWT", "Linux", "Postman", "DRF",
+  "Python",
+  "Django",
+  "React",
+  "PostgreSQL",
+  "Docker",
+  "JavaScript",
+  "REST API",
+  "Redux",
+  "Firebase",
+  "OpenCV",
+  "Git",
+  "Tailwind",
+  "JWT",
+  "Linux",
+  "Postman",
+  "DRF",
 ];
 
-// Distribute points evenly on a sphere (Fibonacci spiral)
 function fibonacciSphere(count, radius) {
   const points = [];
   const phi = Math.PI * (3 - Math.sqrt(5));
+
   for (let i = 0; i < count; i++) {
     const y = 1 - (i / (count - 1)) * 2;
     const r = Math.sqrt(1 - y * y);
     const theta = phi * i;
+
     points.push([
       Math.cos(theta) * r * radius,
       y * radius,
       Math.sin(theta) * r * radius,
     ]);
   }
+
   return points;
 }
+
+const colors = [
+  "#00f5d4",
+  "#4cc9f0",
+  "#7b5ea7",
+  "#f72585",
+  "#4361ee",
+  "#7209b7",
+];
 
 const TechTag = ({ position, name, index }) => {
   const ref = useRef();
@@ -37,34 +60,50 @@ const TechTag = ({ position, name, index }) => {
     }
   });
 
-  // Colors cycle through accent palette
-  const colors = ["#00f5d4", "#7b5ea7", "#00b4d8", "#f72585", "#4cc9f0", "#7209b7"];
   const color = colors[index % colors.length];
 
   return (
     <group position={position}>
-      {/* Background pill */}
+      {/* Glass Card */}
       <mesh
         ref={ref}
         onPointerOver={() => setHovered(true)}
         onPointerOut={() => setHovered(false)}
       >
-        <planeGeometry args={[1.4, 0.45]} />
-        <meshBasicMaterial
-          color={hovered ? color : "#0d1117"}
+        <planeGeometry args={[1.55, 0.5]} />
+
+        <meshPhysicalMaterial
+          color={hovered ? color : "#ffffff"}
           transparent
-          opacity={hovered ? 0.95 : 0.75}
+          opacity={hovered ? 0.95 : 0.18}
+          roughness={0.15}
+          metalness={0.2}
+          transmission={0.7}
+          thickness={0.5}
+          clearcoat={1}
           side={THREE.DoubleSide}
         />
       </mesh>
 
-      {/* Border ring using line */}
+      {/* Border Glow */}
+      <mesh ref={ref}>
+        <planeGeometry args={[1.6, 0.55]} />
+        <meshBasicMaterial
+          color={color}
+          transparent
+          opacity={hovered ? 0.4 : 0.15}
+          wireframe
+        />
+      </mesh>
+
+      {/* Text */}
       <Text
-        fontSize={0.18}
-        color={hovered ? "#000000" : color}
+        fontSize={0.17}
+        color={hovered ? "#ffffff" : color}
         anchorX="center"
         anchorY="middle"
-        font={undefined}
+        outlineWidth={0.004}
+        outlineColor="#000"
       >
         {name}
       </Text>
@@ -74,40 +113,57 @@ const TechTag = ({ position, name, index }) => {
 
 const Globe = () => {
   const groupRef = useRef();
-  const positions = fibonacciSphere(techs.length, 2.2);
+  const positions = fibonacciSphere(techs.length, 2.3);
 
   useFrame(({ clock }) => {
     if (groupRef.current) {
-      groupRef.current.rotation.y = clock.getElapsedTime() * 0.25;
-      groupRef.current.rotation.x = Math.sin(clock.getElapsedTime() * 0.1) * 0.15;
+      groupRef.current.rotation.y = clock.getElapsedTime() * 0.18;
+      groupRef.current.rotation.x =
+        Math.sin(clock.getElapsedTime() * 0.15) * 0.1;
     }
   });
 
   return (
     <group ref={groupRef}>
-      {/* Wireframe globe */}
-      <Sphere args={[2, 16, 16]}>
+      {/* Main Wire Globe */}
+      <Sphere args={[2, 32, 32]}>
         <meshBasicMaterial
-          color="#00f5d4"
+          color="#4cc9f0"
           wireframe
           transparent
-          opacity={0.06}
+          opacity={0.22}
         />
       </Sphere>
 
-      {/* Equator ring */}
+      {/* Outer Glow Sphere */}
+      <Sphere args={[2.05, 32, 32]}>
+        <meshBasicMaterial
+          color="#00f5d4"
+          transparent
+          opacity={0.03}
+        />
+      </Sphere>
+
+      {/* Rings */}
       <mesh rotation={[Math.PI / 2, 0, 0]}>
-        <torusGeometry args={[2.2, 0.008, 8, 80]} />
-        <meshBasicMaterial color="#00f5d4" transparent opacity={0.2} />
+        <torusGeometry args={[2.25, 0.01, 16, 100]} />
+        <meshBasicMaterial
+          color="#00f5d4"
+          transparent
+          opacity={0.45}
+        />
       </mesh>
 
-      {/* Meridian ring */}
       <mesh rotation={[0, 0, Math.PI / 2]}>
-        <torusGeometry args={[2.2, 0.008, 8, 80]} />
-        <meshBasicMaterial color="#7b5ea7" transparent opacity={0.15} />
+        <torusGeometry args={[2.25, 0.01, 16, 100]} />
+        <meshBasicMaterial
+          color="#7b5ea7"
+          transparent
+          opacity={0.35}
+        />
       </mesh>
 
-      {/* Tech tags */}
+      {/* Tech Tags */}
       {techs.map((tech, i) => (
         <TechTag
           key={tech}
@@ -122,9 +178,19 @@ const Globe = () => {
 
 export default function FloatingCube() {
   return (
-    <Canvas camera={{ position: [0, 0, 6], fov: 50 }}>
-      <ambientLight intensity={1} />
+    <Canvas
+      camera={{ position: [0, 0, 6], fov: 50 }}
+      style={{
+        background: "transparent",
+      }}
+    >
+      {/* Lighting */}
+      <ambientLight intensity={1.4} />
+      <pointLight position={[5, 5, 5]} intensity={2} />
+      <pointLight position={[-5, -5, -5]} intensity={1.5} />
+
       <Globe />
+
       <OrbitControls
         enableZoom={false}
         enablePan={false}

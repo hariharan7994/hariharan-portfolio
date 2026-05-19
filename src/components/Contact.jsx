@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import emailjs from "emailjs-com";
-import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaLinkedin, FaGithub, FaPaperPlane } from "react-icons/fa";
+import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaLinkedin, FaPaperPlane } from "react-icons/fa";
 import ParticleRing from "./canvas/ParticleRing";
 
 const SERVICE_ID = "service_0zagtfn";       // ← replace
@@ -10,7 +10,7 @@ const PUBLIC_KEY = "Dbhb1E2B4VEhsdnYL";       // ← replace
 
 export default function Contact() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
-  const [status, setStatus] = useState("idle"); // idle | sending | success | error
+  const [status, setStatus] = useState("idle");
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
@@ -30,43 +30,55 @@ export default function Contact() {
     }
   };
 
+  const inputStyle = {
+    width: "100%", background: "var(--input-bg)", border: "1px solid var(--border)",
+    borderRadius: "12px", padding: "12px 16px", color: "var(--text)",
+    fontSize: "0.875rem", outline: "none", transition: "border-color 0.3s, box-shadow 0.3s",
+    fontFamily: "'DM Sans', sans-serif",
+  };
+
   return (
-    <section id="contact" className="relative py-24 overflow-hidden">
-      {/* Particle ring background */}
-      <div className="absolute inset-0 opacity-30 pointer-events-none">
+    <section id="contact" style={{ padding: "96px 0", position: "relative", overflow: "hidden" }}>
+      <div style={{ position: "absolute", inset: 0, opacity: 0.25, pointerEvents: "none" }}>
         <ParticleRing />
       </div>
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6">
-        <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} className="text-center mb-16">
-          <p className="text-[var(--accent)] font-mono text-sm tracking-widest uppercase mb-3">Get In Touch</p>
-          <h2 className="text-4xl lg:text-5xl font-bold font-display">
-            Let's <span className="text-[var(--accent)]">Connect</span>
+      <div className="max-w-6xl mx-auto px-6 relative z-10">
+        <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} style={{ textAlign: "center", marginBottom: "64px" }}>
+          <p style={{ color: "var(--accent)", fontFamily: "monospace", fontSize: "0.75rem", letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: "12px" }}>Get In Touch</p>
+          <h2 style={{ fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", color: "var(--text)" }}>
+            Let's <span style={{ color: "var(--accent)" }}>Connect</span>
           </h2>
-          <p className="text-[var(--muted)] mt-4 max-w-lg mx-auto">Open to freelance projects, full-time roles, and interesting collaborations.</p>
+          <p style={{ color: "var(--muted)", marginTop: "12px", maxWidth: "480px", margin: "12px auto 0" }}>
+            Open to freelance projects, full-time roles, and interesting collaborations.
+          </p>
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-12">
-          {/* Info */}
-          <motion.div initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }} className="space-y-8">
+          {/* Contact Info */}
+          <motion.div initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }}
+            style={{ display: "flex", flexDirection: "column", gap: "24px" }}
+          >
             {[
               { icon: <FaEnvelope />, label: "Email", value: "hariharan66461@gmail.com", href: "mailto:hariharan66461@gmail.com" },
               { icon: <FaPhone />, label: "Phone", value: "+91 7994052636", href: "tel:+917994052636" },
               { icon: <FaMapMarkerAlt />, label: "Location", value: "Palakkad, Kerala, India", href: null },
               { icon: <FaLinkedin />, label: "LinkedIn", value: "linkedin.com/in/hariharan-s-794064277", href: "https://linkedin.com/in/hariharan-s-794064277" },
             ].map((item) => (
-              <div key={item.label} className="flex items-center gap-5">
-                <div className="w-12 h-12 rounded-2xl bg-[var(--accent)]/10 flex items-center justify-center text-[var(--accent)] flex-shrink-0">
+              <div key={item.label} style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+                <div style={{ width: "48px", height: "48px", borderRadius: "14px", background: "var(--glow)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--accent)", flexShrink: 0, border: "1px solid var(--border)" }}>
                   {item.icon}
                 </div>
                 <div>
-                  <p className="text-[var(--muted)] text-xs uppercase tracking-wider">{item.label}</p>
+                  <p style={{ color: "var(--muted)", fontSize: "0.7rem", textTransform: "uppercase", letterSpacing: "0.1em" }}>{item.label}</p>
                   {item.href ? (
-                    <a href={item.href} target="_blank" rel="noreferrer" className="text-white hover:text-[var(--accent)] transition-colors font-medium">
-                      {item.value}
-                    </a>
+                    <a href={item.href} target="_blank" rel="noreferrer"
+                      style={{ color: "var(--text)", fontWeight: 500, textDecoration: "none", fontSize: "0.9rem", transition: "color 0.2s" }}
+                      onMouseEnter={e => e.currentTarget.style.color = "var(--accent)"}
+                      onMouseLeave={e => e.currentTarget.style.color = "var(--text)"}
+                    >{item.value}</a>
                   ) : (
-                    <p className="text-white font-medium">{item.value}</p>
+                    <p style={{ color: "var(--text)", fontWeight: 500, fontSize: "0.9rem" }}>{item.value}</p>
                   )}
                 </div>
               </div>
@@ -76,43 +88,44 @@ export default function Contact() {
           {/* Form */}
           <motion.form initial={{ opacity: 0, x: 40 }} whileInView={{ opacity: 1, x: 0 }}
             onSubmit={handleSubmit}
-            className="bg-[var(--surface)] rounded-3xl p-8 border border-white/5 space-y-5"
+            style={{ background: "var(--surface)", borderRadius: "24px", padding: "32px", border: "1px solid var(--border)", display: "flex", flexDirection: "column", gap: "16px" }}
           >
             <div>
-              <label className="text-xs text-[var(--muted)] uppercase tracking-wider mb-2 block">Your Name</label>
-              <input name="name" value={form.name} onChange={handleChange} required
-                placeholder="Hariharan S"
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-[var(--muted)] focus:outline-none focus:border-[var(--accent)] transition-colors"
+              <label style={{ display: "block", color: "var(--muted)", fontSize: "0.7rem", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "8px" }}>Your Name</label>
+              <input name="name" value={form.name} onChange={handleChange} required placeholder="John Smith"
+                style={inputStyle}
+                onFocus={e => { e.currentTarget.style.borderColor = "var(--accent)"; e.currentTarget.style.boxShadow = "0 0 0 3px var(--glow)"; }}
+                onBlur={e => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.boxShadow = "none"; }}
               />
             </div>
             <div>
-              <label className="text-xs text-[var(--muted)] uppercase tracking-wider mb-2 block">Email Address</label>
-              <input name="email" type="email" value={form.email} onChange={handleChange} required
-                placeholder="you@example.com"
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-[var(--muted)] focus:outline-none focus:border-[var(--accent)] transition-colors"
+              <label style={{ display: "block", color: "var(--muted)", fontSize: "0.7rem", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "8px" }}>Email Address</label>
+              <input name="email" type="email" value={form.email} onChange={handleChange} required placeholder="you@example.com"
+                style={inputStyle}
+                onFocus={e => { e.currentTarget.style.borderColor = "var(--accent)"; e.currentTarget.style.boxShadow = "0 0 0 3px var(--glow)"; }}
+                onBlur={e => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.boxShadow = "none"; }}
               />
             </div>
             <div>
-              <label className="text-xs text-[var(--muted)] uppercase tracking-wider mb-2 block">Message</label>
+              <label style={{ display: "block", color: "var(--muted)", fontSize: "0.7rem", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "8px" }}>Message</label>
               <textarea name="message" value={form.message} onChange={handleChange} required rows={5}
                 placeholder="Tell me about your project..."
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-[var(--muted)] focus:outline-none focus:border-[var(--accent)] transition-colors resize-none"
+                style={{ ...inputStyle, resize: "none" }}
+                onFocus={e => { e.currentTarget.style.borderColor = "var(--accent)"; e.currentTarget.style.boxShadow = "0 0 0 3px var(--glow)"; }}
+                onBlur={e => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.boxShadow = "none"; }}
               />
             </div>
 
-            <button type="submit" disabled={status === "sending"}
-              className="w-full flex items-center justify-center gap-3 py-4 bg-[var(--accent)] text-black font-semibold rounded-xl hover:brightness-110 transition-all disabled:opacity-60"
+            <motion.button type="submit" disabled={status === "sending"}
+              whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
+              style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", padding: "14px", background: "var(--accent)", color: "#000", fontWeight: 600, borderRadius: "12px", border: "none", cursor: "pointer", fontSize: "0.9rem", opacity: status === "sending" ? 0.6 : 1, transition: "opacity 0.2s" }}
             >
-              <FaPaperPlane />
+              <FaPaperPlane size={14} />
               {status === "sending" ? "Sending..." : "Send Message"}
-            </button>
+            </motion.button>
 
-            {status === "success" && (
-              <p className="text-green-400 text-center text-sm">✓ Message sent successfully!</p>
-            )}
-            {status === "error" && (
-              <p className="text-red-400 text-center text-sm">✗ Failed to send. Try emailing directly.</p>
-            )}
+            {status === "success" && <p style={{ color: "#4ade80", textAlign: "center", fontSize: "0.85rem" }}>✓ Message sent successfully!</p>}
+            {status === "error" && <p style={{ color: "#f87171", textAlign: "center", fontSize: "0.85rem" }}>✗ Failed to send. Try emailing directly.</p>}
           </motion.form>
         </div>
       </div>

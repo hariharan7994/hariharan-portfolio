@@ -10,7 +10,7 @@ import Footer from "./components/Footer";
 
 export default function App() {
   return (
-    <main className="relative bg-[#050816] min-h-screen overflow-x-hidden">
+    <main style={{ background: "var(--bg)", minHeight: "100vh", overflowX: "hidden" }}>
       <Navbar />
       <Hero />
       <About />
