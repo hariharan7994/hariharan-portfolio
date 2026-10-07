@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaSun, FaMoon } from "react-icons/fa";
 import { useTheme } from "../context/ThemeContext";
 import HireMeModal from "./HireMeModal";
+import gsap from "gsap";
 
 const navLinks = [
   { id: "about", title: "About" },
@@ -13,16 +14,258 @@ const navLinks = [
   { id: "contact", title: "Contact" },
 ];
 
+/* ── Magnetic Link Component ── */
+function MagneticLink({ children, onClick, isActive, style }) {
+  const ref = useRef(null);
+  const quickX = useRef(null);
+  const quickY = useRef(null);
+
+  useEffect(() => {
+    if (!ref.current) return;
+    quickX.current = gsap.quickTo(ref.current, "x", {
+      duration: 0.4,
+      ease: "power3.out",
+    });
+    quickY.current = gsap.quickTo(ref.current, "y", {
+      duration: 0.4,
+      ease: "power3.out",
+    });
+  }, []);
+
+  const handleMouseMove = useCallback((e) => {
+    if (!ref.current || !quickX.current || !quickY.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const dx = (e.clientX - cx) * 0.35;
+    const dy = (e.clientY - cy) * 0.35;
+    quickX.current(dx);
+    quickY.current(dy);
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    if (quickX.current) quickX.current(0);
+    if (quickY.current) quickY.current(0);
+  }, []);
+
+  return (
+    <div
+      className="magnetic-wrap"
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+    >
+      <button
+        ref={ref}
+        onClick={onClick}
+        style={{
+          position: "relative",
+          padding: "8px 20px",
+          fontSize: "0.85rem",
+          fontWeight: 500,
+          background: "none",
+          border: "none",
+          cursor: "pointer",
+          fontFamily: "'DM Sans', sans-serif",
+          letterSpacing: "0.02em",
+          transition: "color 0.3s ease",
+          ...style,
+        }}
+      >
+        {/* Active dot indicator */}
+        {isActive && (
+          <motion.span
+            layoutId="navDot"
+            style={{
+              position: "absolute",
+              bottom: "-2px",
+              left: "50%",
+              transform: "translateX(-50%)",
+              width: "5px",
+              height: "5px",
+              borderRadius: "50%",
+              background: "var(--accent)",
+              boxShadow: "0 0 8px var(--accent)",
+            }}
+            transition={{ type: "spring", stiffness: 400, damping: 25 }}
+          />
+        )}
+        {children}
+      </button>
+    </div>
+  );
+}
+
+/* ── Floating Menu Button ── */
+function FloatingMenuButton({ visible, onClick }) {
+  const ref = useRef(null);
+
+  useEffect(() => {
+    if (!ref.current) return;
+    gsap.to(ref.current, {
+      scale: visible ? 1 : 0,
+      opacity: visible ? 1 : 0,
+      duration: 0.5,
+      ease: "back.out(1.7)",
+    });
+  }, [visible]);
+
+  return (
+    <button
+      ref={ref}
+      onClick={onClick}
+      style={{
+        position: "fixed",
+        top: "32px",
+        right: "32px",
+        zIndex: 60,
+        width: "64px",
+        height: "64px",
+        borderRadius: "50%",
+        background: "var(--accent)",
+        border: "none",
+        cursor: "pointer",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        color: "#000",
+        fontWeight: 700,
+        fontSize: "0.7rem",
+        fontFamily: "'DM Sans', sans-serif",
+        textTransform: "uppercase",
+        letterSpacing: "0.08em",
+        boxShadow: "0 0 30px var(--shadow)",
+        transform: "scale(0)",
+        opacity: 0,
+      }}
+    >
+      Menu
+    </button>
+  );
+}
+
+/* ── Fullscreen Overlay Nav ── */
+function OverlayNav({ open, onClose, onNavClick, active }) {
+  return (
+    <AnimatePresence>
+      {open && (
+        <motion.div
+          initial={{ clipPath: "circle(0% at calc(100% - 64px) 64px)" }}
+          animate={{ clipPath: "circle(150% at calc(100% - 64px) 64px)" }}
+          exit={{ clipPath: "circle(0% at calc(100% - 64px) 64px)" }}
+          transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 55,
+            background: "var(--surface)",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "8px",
+          }}
+        >
+          {/* Close button */}
+          <motion.button
+            initial={{ opacity: 0, rotate: -90 }}
+            animate={{ opacity: 1, rotate: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ delay: 0.4 }}
+            onClick={onClose}
+            style={{
+              position: "absolute",
+              top: "32px",
+              right: "32px",
+              width: "64px",
+              height: "64px",
+              borderRadius: "50%",
+              background: "var(--accent)",
+              border: "none",
+              cursor: "pointer",
+              color: "#000",
+              fontSize: "1.5rem",
+              fontWeight: 700,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            ✕
+          </motion.button>
+
+          {navLinks.map((link, i) => (
+            <motion.button
+              key={link.id}
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{
+                delay: 0.2 + i * 0.08,
+                duration: 0.6,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              onClick={() => {
+                onNavClick(link.id);
+                onClose();
+              }}
+              style={{
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                fontSize: "clamp(2rem, 5vw, 4rem)",
+                fontWeight: 700,
+                fontFamily: "'Space Grotesk', sans-serif",
+                color:
+                  active === link.id ? "var(--accent)" : "var(--text)",
+                padding: "8px 24px",
+                display: "flex",
+                alignItems: "center",
+                gap: "16px",
+                transition: "color 0.3s",
+              }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.color = "var(--accent)")
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.color =
+                  active === link.id ? "var(--accent)" : "var(--text)")
+              }
+            >
+              <span
+                style={{
+                  fontSize: "0.8rem",
+                  fontFamily: "monospace",
+                  color: "var(--muted)",
+                  fontWeight: 400,
+                  width: "24px",
+                }}
+              >
+                0{i + 1}
+              </span>
+              {link.title}
+            </motion.button>
+          ))}
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const [pastHero, setPastHero] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [overlayOpen, setOverlayOpen] = useState(false);
   const [active, setActive] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const { dark, toggle } = useTheme();
 
   // Scroll listener
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+      setPastHero(window.scrollY > window.innerHeight * 0.8);
+    };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -33,7 +276,9 @@ export default function Navbar() {
       const el = document.getElementById(id);
       if (!el) return null;
       const observer = new IntersectionObserver(
-        ([entry]) => { if (entry.isIntersecting) setActive(id); },
+        ([entry]) => {
+          if (entry.isIntersecting) setActive(id);
+        },
         { threshold: 0.4 }
       );
       observer.observe(el);
@@ -51,6 +296,14 @@ export default function Navbar() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  // Prevent body scroll when overlay open
+  useEffect(() => {
+    document.body.style.overflow = overlayOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [overlayOpen]);
+
   const handleNavClick = (id) => {
     setActive(id);
     setMenuOpen(false);
@@ -59,22 +312,30 @@ export default function Navbar() {
 
   return (
     <>
+      {/* ── Top Navbar ── */}
       <motion.nav
         initial={{ y: -80, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
+        animate={{
+          y: 0,
+          opacity: pastHero ? 0 : 1,
+          pointerEvents: pastHero ? "none" : "auto",
+        }}
         transition={{ duration: 0.6, ease: "easeOut" }}
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
           scrolled
             ? "backdrop-blur-md border-b shadow-lg"
             : "bg-transparent"
         }`}
-        style={scrolled ? {
-          background: "var(--surface)",
-          borderColor: "var(--border)",
-        } : {}}
+        style={
+          scrolled
+            ? {
+                background: "var(--surface)",
+                borderColor: "var(--border)",
+              }
+            : {}
+        }
       >
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between gap-6">
-
           {/* ── Logo ── */}
           <motion.div
             whileHover={{ scale: 1.05 }}
@@ -91,63 +352,41 @@ export default function Navbar() {
                 boxShadow: "0 0 15px var(--shadow)",
               }}
             >
-              <span className="text-black font-bold font-display text-lg">H</span>
+              <span className="text-black font-bold font-display text-lg">
+                H
+              </span>
             </div>
             <span
               className="font-display font-bold text-lg tracking-wide"
               style={{ color: "var(--text)" }}
             >
-              HARIHARAN<span style={{ color: "var(--accent)" }}>.S</span>
+              HARIHARAN
+              <span style={{ color: "var(--accent)" }}>.S</span>
             </span>
           </motion.div>
 
-          {/* ── Desktop Nav Links ── */}
+          {/* ── Desktop Nav Links (Magnetic) ── */}
           <ul className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => (
               <li key={link.id}>
-                <button
+                <MagneticLink
                   onClick={() => handleNavClick(link.id)}
-                  className="relative px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 group"
+                  isActive={active === link.id}
                   style={{
-                    color: active === link.id ? "var(--accent)" : "var(--muted)",
-                  }}
-                  onMouseEnter={(e) => {
-                    if (active !== link.id)
-                      e.currentTarget.style.color = "var(--text)";
-                  }}
-                  onMouseLeave={(e) => {
-                    if (active !== link.id)
-                      e.currentTarget.style.color = "var(--muted)";
+                    color:
+                      active === link.id
+                        ? "var(--accent)"
+                        : "var(--muted)",
                   }}
                 >
-                  {/* Active background pill */}
-                  {active === link.id && (
-                    <motion.span
-                      layoutId="activePill"
-                      className="absolute inset-0 rounded-lg"
-                      style={{ background: "var(--accent)", opacity: 0.1 }}
-                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                    />
-                  )}
-                  <span className="relative z-10">{link.title}</span>
-
-                  {/* Underline */}
-                  <span
-                    className={`absolute -bottom-1 left-0 h-px transition-all duration-300 ${
-                      active === link.id
-                        ? "w-full opacity-100"
-                        : "w-0 opacity-0 group-hover:w-full group-hover:opacity-50"
-                    }`}
-                    style={{ background: "var(--accent)" }}
-                  />
-                </button>
+                  {link.title}
+                </MagneticLink>
               </li>
             ))}
           </ul>
 
           {/* ── Desktop Right: Theme Toggle + Hire Me ── */}
           <div className="hidden md:flex items-center gap-3">
-
             {/* Theme Toggle */}
             <motion.button
               onClick={toggle}
@@ -204,7 +443,6 @@ export default function Navbar() {
 
           {/* ── Mobile Right: Theme Toggle + Hamburger ── */}
           <div className="md:hidden flex items-center gap-3">
-
             {/* Mobile Theme Toggle */}
             <motion.button
               onClick={toggle}
@@ -237,17 +475,29 @@ export default function Navbar() {
               aria-label="Toggle menu"
             >
               <motion.span
-                animate={menuOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
+                animate={
+                  menuOpen
+                    ? { rotate: 45, y: 8 }
+                    : { rotate: 0, y: 0 }
+                }
                 className="block w-6 h-0.5 rounded-full origin-center"
                 style={{ background: "var(--text)" }}
               />
               <motion.span
-                animate={menuOpen ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
+                animate={
+                  menuOpen
+                    ? { opacity: 0, scaleX: 0 }
+                    : { opacity: 1, scaleX: 1 }
+                }
                 className="block w-6 h-0.5 rounded-full"
                 style={{ background: "var(--text)" }}
               />
               <motion.span
-                animate={menuOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
+                animate={
+                  menuOpen
+                    ? { rotate: -45, y: -8 }
+                    : { rotate: 0, y: 0 }
+                }
                 className="block w-6 h-0.5 rounded-full origin-center"
                 style={{ background: "var(--text)" }}
               />
@@ -342,6 +592,20 @@ export default function Navbar() {
           )}
         </AnimatePresence>
       </motion.nav>
+
+      {/* ── Floating Sticky Menu Button (appears after scrolling past Hero) ── */}
+      <FloatingMenuButton
+        visible={pastHero && !overlayOpen}
+        onClick={() => setOverlayOpen(true)}
+      />
+
+      {/* ── Fullscreen Overlay Navigation ── */}
+      <OverlayNav
+        open={overlayOpen}
+        onClose={() => setOverlayOpen(false)}
+        onNavClick={handleNavClick}
+        active={active}
+      />
 
       {/* ── Hire Me Modal ── */}
       <HireMeModal open={modalOpen} onClose={() => setModalOpen(false)} />

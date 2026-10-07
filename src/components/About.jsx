@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 import { FaCode, FaServer, FaBrain, FaUsers } from "react-icons/fa";
 import WaveGrid from "./canvas/WaveGrid";
+import Magnetic from "./Magnetic";
+import SplitTextReveal from "./SplitTextReveal";
 
 const cards = [
   { icon: <FaServer size={22} />, title: "Backend Expert", desc: "Python Django & DRF — REST APIs, JWT auth, RBAC, PostgreSQL optimization." },
@@ -19,7 +21,7 @@ export default function About() {
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} style={{ textAlign: "center", marginBottom: "64px" }}>
-          <p style={{ color: "var(--accent)", fontFamily: "monospace", fontSize: "0.75rem", letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: "12px" }}>Who I Am</p>
+          <SplitTextReveal text="Who I Am" style={{ color: "var(--accent)", fontFamily: "monospace", fontSize: "0.75rem", letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: "12px" }} />
           <h2 style={{ fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", color: "var(--text)" }}>
             About <span style={{ color: "var(--accent)" }}>Me</span>
           </h2>
@@ -52,17 +54,19 @@ export default function About() {
 
           <div className="grid grid-cols-2 gap-4">
             {cards.map((card, i) => (
-              <motion.div key={card.title}
-                initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}
-                whileHover={{ y: -4 }}
-                style={{ background: "var(--surface)", padding: "24px", borderRadius: "16px", border: "1px solid var(--border)", transition: "all 0.3s", cursor: "default" }}
-                onMouseEnter={e => e.currentTarget.style.borderColor = "var(--accent)"}
-                onMouseLeave={e => e.currentTarget.style.borderColor = "var(--border)"}
-              >
-                <div style={{ color: "var(--accent)", marginBottom: "12px" }}>{card.icon}</div>
-                <h3 style={{ fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", marginBottom: "8px", color: "var(--text)", fontSize: "0.95rem" }}>{card.title}</h3>
-                <p style={{ color: "var(--muted)", fontSize: "0.82rem", lineHeight: 1.6 }}>{card.desc}</p>
-              </motion.div>
+              <Magnetic key={card.title} intensity={0.1}>
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}
+                  whileHover={{ y: -4 }}
+                  style={{ background: "var(--surface)", padding: "24px", borderRadius: "16px", border: "1px solid var(--border)", transition: "all 0.3s", cursor: "default", height: "100%" }}
+                  onMouseEnter={e => e.currentTarget.style.borderColor = "var(--accent)"}
+                  onMouseLeave={e => e.currentTarget.style.borderColor = "var(--border)"}
+                >
+                  <div style={{ color: "var(--accent)", marginBottom: "12px" }}>{card.icon}</div>
+                  <h3 style={{ fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", marginBottom: "8px", color: "var(--text)", fontSize: "0.95rem" }}>{card.title}</h3>
+                  <p style={{ color: "var(--muted)", fontSize: "0.82rem", lineHeight: 1.6 }}>{card.desc}</p>
+                </motion.div>
+              </Magnetic>
             ))}
           </div>
         </div>

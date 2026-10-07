@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import About from "./components/About";
@@ -9,40 +7,51 @@ import Experience from "./components/Experience";
 import Resume from "./components/Resume";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
+import StackSpreadDemo from "./components/ui/demo";
 
-import IntroScene from "./components/canvas/IntroScene";
+import ScrollProgress from "./components/ScrollProgress";
+import SectionReveal from "./components/SectionReveal";
+import SmoothScroll from "./components/SmoothScroll";
+import CustomCursor from "./components/CustomCursor";
 
 export default function App() {
-  const [introFinished, setIntroFinished] = useState(false);
-
   return (
     <>
-      {/* Intro Animation */}
-      {!introFinished && (
-        <IntroScene
-          onFinish={() => setIntroFinished(true)}
-        />
-      )}
-
-      {/* Main Portfolio */}
+      <CustomCursor />
       <main
         style={{
           background: "var(--bg)",
           minHeight: "100vh",
           overflowX: "hidden",
-          opacity: introFinished ? 1 : 0,
-          transition: "opacity 1s ease",
+          position: "relative",
         }}
       >
-        <Navbar />
-        <Hero />
-        <About />
-        <Skills />
-        <Projects />
-        <Experience />
-        <Resume />
-        <Contact />
-        <Footer />
+        <SmoothScroll>
+          <ScrollProgress />
+          <div style={{ position: "relative", zIndex: 1 }}>
+            <Navbar />
+            <Hero />
+            <SectionReveal>
+              <About />
+            </SectionReveal>
+            <SectionReveal delay={0.05}>
+              <Skills />
+            </SectionReveal>
+            <SectionReveal delay={0.05}>
+              <Projects />
+            </SectionReveal>
+            <SectionReveal delay={0.05}>
+              <Experience />
+            </SectionReveal>
+            <SectionReveal delay={0.05}>
+              <Resume />
+            </SectionReveal>
+            <SectionReveal delay={0.05}>
+              <Contact />
+            </SectionReveal>
+            <Footer />
+          </div>
+        </SmoothScroll>
       </main>
     </>
   );
