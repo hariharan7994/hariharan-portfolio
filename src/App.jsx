@@ -7,7 +7,7 @@ import Experience from "./components/Experience";
 import Resume from "./components/Resume";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
-import StackSpreadDemo from "./components/ui/demo";
+
 
 import ScrollProgress from "./components/ScrollProgress";
 import SectionReveal from "./components/SectionReveal";

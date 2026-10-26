@@ -8,6 +8,7 @@ export default function StackSpreadDemo() {
       bgColor="transparent" 
       textColor="var(--text)"
       scrollLength={150}
+      cardRadius={16}
     />
   );
 }

@@ -303,12 +303,21 @@ function CardFace({
   return (
     <div
       className="relative h-full w-full overflow-hidden max-md:rounded-[4vw]"
-      style={{ borderRadius: `${cardRadius}px` }}
+      style={{
+        borderRadius: `${cardRadius}px`,
+        background: "rgba(15, 15, 20, 0.55)",
+        border: "1px solid rgba(255, 255, 255, 0.13)",
+        boxShadow:
+          "0 8px 32px rgba(0,0,0,0.55), 0 1.5px 0 rgba(255,255,255,0.07) inset",
+        backdropFilter: "blur(2px)",
+        padding: "6px",
+      }}
     >
       <img
         src={item.src}
         alt={item.alt ?? ""}
         draggable={false}
+        style={{ borderRadius: `${Math.max(cardRadius - 6, 4)}px` }}
         className="absolute inset-0 h-full w-full object-cover"
       />
     </div>
@@ -330,11 +339,11 @@ interface StackSpreadStageProps {
 function StackSpreadStage({
   cards,
   scrollLength = 350,
-  bgColor = "#ececeb",
+  bgColor = "transparent",
   clusterRotation = true,
   stackScale = 0.82,
-  cardRadius = 8,
-  textColor = "#141414",
+  cardRadius = 16,
+  textColor = "#fafafa",
   textFadeStart = 0.3,
   showScrollHint = true,
 }: StackSpreadStageProps) {
@@ -447,11 +456,11 @@ export interface StackSpreadProps {
 
 export default function StackSpread({
   scrollLength = 350,
-  bgColor = "#ececeb",
+  bgColor = "transparent",
   clusterRotation = true,
   stackScale = 0.82,
-  cardRadius = 8,
-  textColor = "#141414",
+  cardRadius = 16,
+  textColor = "#fafafa",
   textFadeStart = 0.3,
   showScrollHint = true,
 }: StackSpreadProps) {
