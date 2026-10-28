@@ -56,7 +56,7 @@ const ModalParticles = () => {
           itemSize={3}
         />
       </bufferGeometry>
-      <pointsMaterial color="#00f5d4" size={0.04} transparent opacity={0.5} sizeAttenuation />
+      <pointsMaterial color="#E8D2B5" size={0.04} transparent opacity={0.6} sizeAttenuation />
     </points>
   );
 };
@@ -78,7 +78,7 @@ const ConnectionLines = () => {
 
   useFrame(({ clock }) => {
     if (ref.current) {
-      ref.current.material.opacity = 0.1 + Math.sin(clock.getElapsedTime()) * 0.05;
+      ref.current.material.opacity = 0.15 + Math.sin(clock.getElapsedTime()) * 0.05;
     }
   });
 
@@ -87,7 +87,7 @@ const ConnectionLines = () => {
       <bufferGeometry>
         <bufferAttribute attach="attributes-position" array={positions} count={count * 2} itemSize={3} />
       </bufferGeometry>
-      <lineBasicMaterial color="#7b5ea7" transparent opacity={0.12} />
+      <lineBasicMaterial color="#A5A79B" transparent opacity={0.16} />
     </lineSegments>
   );
 };
@@ -144,7 +144,7 @@ export default function HireMeModal({ open, onClose }) {
 
   const inputClass = `w-full bg-white/5 border border-[var(--border)] rounded-xl px-4 py-3 
     text-[var(--text)] placeholder-[var(--muted)] focus:outline-none focus:border-[var(--accent)] 
-    transition-all duration-300 focus:bg-white/8 focus:shadow-[0_0_0_3px_rgba(0,245,212,0.1)] text-sm`;
+    transition-all duration-300 focus:bg-white/8 focus:shadow-[0_0_0_3px_rgba(232,210,181,0.15)] text-sm`;
 
   return (
     <AnimatePresence>

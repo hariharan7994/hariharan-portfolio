@@ -47,10 +47,10 @@ const Grid = () => {
         />
       </bufferGeometry>
       <pointsMaterial
-        color="#00f5d4"
+        color="#A5A79B"
         size={0.03}
         transparent
-        opacity={0.18}
+        opacity={0.2}
         sizeAttenuation
         depthWrite={false}
       />
@@ -101,10 +101,10 @@ const FloatingDots = () => {
         />
       </bufferGeometry>
       <pointsMaterial
-        color="#7b5ea7"
+        color="#E8D2B5"
         size={0.025}
         transparent
-        opacity={0.25}
+        opacity={0.3}
         sizeAttenuation
         depthWrite={false}
       />

@@ -28,10 +28,10 @@ function Globe() {
       {/* Main Globe */}
       <Sphere args={[1.8, 32, 32]}>
         <meshBasicMaterial
-          color="#66fcf1"
+          color="#A5A79B"
           wireframe
           transparent
-          opacity={0.22}
+          opacity={0.3}
         />
       </Sphere>
 
@@ -40,9 +40,9 @@ function Globe() {
         <torusGeometry args={[2.25, 0.01, 16, 100]} />
 
         <meshBasicMaterial
-          color="#00f5d4"
+          color="#E8D2B5"
           transparent
-          opacity={0.5}
+          opacity={0.65}
         />
       </mesh>
 
@@ -69,15 +69,15 @@ function Globe() {
               <meshStandardMaterial
                 color={
                   i % 2 === 0
-                    ? "#00f5d4"
-                    : "#7b5ea7"
+                    ? "#E8D2B5"
+                    : "#A5A79B"
                 }
                 emissive={
                   i % 2 === 0
-                    ? "#00f5d4"
-                    : "#7b5ea7"
+                    ? "#E8D2B5"
+                    : "#A5A79B"
                 }
-                emissiveIntensity={2}
+                emissiveIntensity={1.5}
               />
             </mesh>
           </Float>
@@ -153,7 +153,7 @@ export default function IntroScene({ onFinish }) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
               style={{
-                color: "#00f5d4",
+                color: "#E8D2B5",
                 fontSize: "0.85rem",
                 letterSpacing: "0.35em",
                 marginBottom: "20px",
@@ -172,7 +172,7 @@ export default function IntroScene({ onFinish }) {
                 fontSize: "clamp(3.5rem, 8vw, 7rem)",
                 fontWeight: 800,
                 lineHeight: 1,
-                color: "#ffffff",
+                color: "#F4F1EA",
                 fontFamily: "'Space Grotesk', sans-serif",
                 letterSpacing: "-0.05em",
                 marginBottom: "26px",
@@ -181,9 +181,9 @@ export default function IntroScene({ onFinish }) {
               Hariharan
               <span
                 style={{
-                  color: "#00f5d4",
+                  color: "#E8D2B5",
                   textShadow:
-                    "0 0 25px rgba(0,255,212,0.5)",
+                    "0 0 25px rgba(232,210,181,0.5)",
                 }}
               >
                 .S
@@ -195,7 +195,7 @@ export default function IntroScene({ onFinish }) {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6 }}
               style={{
-                color: "#94a3b8",
+                color: "#A5A79B",
                 fontSize: "1.05rem",
                 lineHeight: 1.8,
                 marginBottom: "34px",
@@ -215,9 +215,9 @@ export default function IntroScene({ onFinish }) {
                 height: "4px",
                 borderRadius: "999px",
                 background:
-                  "linear-gradient(to right, #00f5d4, #7b5ea7)",
+                  "linear-gradient(to right, #E8D2B5, #A5A79B)",
                 boxShadow:
-                  "0 0 20px rgba(0,255,212,0.5)",
+                  "0 0 20px rgba(232,210,181,0.4)",
               }}
             />
 
@@ -227,7 +227,7 @@ export default function IntroScene({ onFinish }) {
               transition={{ delay: 1 }}
               style={{
                 marginTop: "14px",
-                color: "#64748b",
+                color: "#8E9389",
                 fontSize: "0.8rem",
                 letterSpacing: "0.25em",
                 fontFamily: "monospace",
@@ -253,13 +253,13 @@ export default function IntroScene({ onFinish }) {
               <pointLight
                 position={[5, 5, 5]}
                 intensity={3}
-                color="#00f5d4"
+                color="#E8D2B5"
               />
 
               <pointLight
                 position={[-5, -5, -5]}
                 intensity={2}
-                color="#7b5ea7"
+                color="#A5A79B"
               />
 
               <Stars
@@ -297,8 +297,8 @@ export default function IntroScene({ onFinish }) {
               width: "100%",
               height: "2px",
               background:
-                "linear-gradient(to right, transparent, #00f5d4, transparent)",
-              boxShadow: "0 0 20px #00f5d4",
+                "linear-gradient(to right, transparent, #E8D2B5, transparent)",
+              boxShadow: "0 0 20px #E8D2B5",
             }}
           />
         </motion.div>

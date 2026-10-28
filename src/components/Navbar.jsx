@@ -543,7 +543,7 @@ export default function Navbar() {
                       style={{
                         background:
                           active === link.id
-                            ? "rgba(0,245,212,0.08)"
+                            ? "rgba(232, 210, 181, 0.12)"
                             : "transparent",
                         color:
                           active === link.id

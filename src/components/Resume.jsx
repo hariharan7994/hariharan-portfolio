@@ -42,7 +42,7 @@ export default function Resume() {
             style={{ background: "var(--surface)", borderRadius: "24px", padding: "32px", border: "1px solid var(--border)" }}
           >
             <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "24px" }}>
-              <div style={{ width: "40px", height: "40px", borderRadius: "12px", background: "rgba(123,94,167,0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <div style={{ width: "40px", height: "40px", borderRadius: "12px", background: "var(--glow-sage)", border: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <FaAward style={{ color: "var(--accent2)", fontSize: "18px" }} />
               </div>
               <h3 style={{ fontSize: "1.1rem", fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", color: "var(--text)" }}>Achievements</h3>

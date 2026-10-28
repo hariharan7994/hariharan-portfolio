@@ -78,7 +78,7 @@ export default function CustomCursor() {
           ...(isHovering && {
             width: "60px",
             height: "60px",
-            backgroundColor: "rgba(0, 245, 212, 0.1)",
+            backgroundColor: "rgba(232, 210, 181, 0.15)",
           }),
         }}
       />

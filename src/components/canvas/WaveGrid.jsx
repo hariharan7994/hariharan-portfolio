@@ -38,7 +38,7 @@ const Grid = () => {
       <bufferGeometry>
         <bufferAttribute attach="attributes-position" array={positions} count={count} itemSize={3} />
       </bufferGeometry>
-      <pointsMaterial color="#7b5ea7" size={0.04} sizeAttenuation transparent opacity={0.6} />
+      <pointsMaterial color="#A5A79B" size={0.04} sizeAttenuation transparent opacity={0.65} />
     </points>
   );
 };

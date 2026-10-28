@@ -138,9 +138,9 @@ const Globe = () => {
       {/* Outer Glow Sphere */}
       <Sphere args={[2.05, 32, 32]}>
         <meshBasicMaterial
-          color="#00f5d4"
+          color="#E8D2B5"
           transparent
-          opacity={0.03}
+          opacity={0.04}
         />
       </Sphere>
 
@@ -148,18 +148,18 @@ const Globe = () => {
       <mesh rotation={[Math.PI / 2, 0, 0]}>
         <torusGeometry args={[2.25, 0.01, 16, 100]} />
         <meshBasicMaterial
-          color="#00f5d4"
+          color="#E8D2B5"
           transparent
-          opacity={0.45}
+          opacity={0.5}
         />
       </mesh>
 
       <mesh rotation={[0, 0, Math.PI / 2]}>
         <torusGeometry args={[2.25, 0.01, 16, 100]} />
         <meshBasicMaterial
-          color="#7b5ea7"
+          color="#A5A79B"
           transparent
-          opacity={0.35}
+          opacity={0.4}
         />
       </mesh>
 

@@ -30,7 +30,7 @@ const Ring = () => {
           itemSize={3}
         />
       </bufferGeometry>
-      <pointsMaterial color="#00f5d4" size={0.015} sizeAttenuation transparent opacity={0.8} />
+      <pointsMaterial color="#E8D2B5" size={0.015} sizeAttenuation transparent opacity={0.85} />
     </points>
   );
 };
